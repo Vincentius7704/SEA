@@ -9,8 +9,8 @@ import Link from 'next/link'
 
 const UniNavbar = () => {
   return (
-    <div className='z-10 text-white  w-screen top-7 max-w-3xl py-4 rounded-full bg-white bg-opacity-10 backdrop-blur-lg drop-shadow-lg fixed'>
-        <div className='flex justify-between px-7 items-center'>
+    <div className='fixed z-10 w-screen max-w-3xl py-4 text-white bg-white rounded-full top-7 bg-opacity-10 backdrop-blur-lg drop-shadow-lg'>
+        <div className='flex items-center justify-between px-7'>
             <Image src={logo} alt = 'logo' className='h-10 w-36'></Image>
             <ul className='flex gap-5'>
                 <Link href='/'>
@@ -22,9 +22,9 @@ const UniNavbar = () => {
                 <Link href='/Balance'>
                     <li className='cursor-pointer'>Balance</li>
                 </Link>
-                <Link href='/History'>
+                <a href='/History'>
                     <li className='cursor-pointer'>History</li>
-                </Link>
+                </a>
             </ul>
         </div>
     </div>
