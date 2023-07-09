@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className='bg-gradient-to-bl from-black to-gray-900'>
+    <html lang="en" className='bg-gradient-to-bl from-black to-gray-950 -z-50'>
       <body className={poppins.className}>{children}</body>
     </html>
   )

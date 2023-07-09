@@ -4,14 +4,14 @@ import Link from 'next/link'
 
 const Hero = () => {
   return (
-    <div className='w-screen h-screen text-white -mt-6 z-0 flex justify-center '>
-        <div className='w-full max-w-5xl flex items-center'>
-            <div className='flex flex-col gap-5'>
-                <p className='text-3xl'>This is</p>
-                <h1 className='text-9xl font-semibold'>SEA Cinema</h1>
+    <div className='z-0 flex justify-center w-screen h-screen -mt-6 text-white '>
+        <div className='flex items-center justify-center w-full max-w-5xl overflow-clip'>
+            <div className='flex flex-col justify-center gap-5 -translate-y-20 px-7 md:translate-y-4'>
+                <p className='text-xl md:text-3xl'>This is</p>
+                <h1 className='text-5xl font-semibold md:text-9xl'>SEA Cinema</h1>
                 <p className='text-xl'>Get your life more exiciting</p>
                 <Link href = '/Movie'>
-                <button className='mt-5 bg-gradient-to-r from-red-700 px-2 py-2 rounded-full w-60 flex justify-start items-center'>
+                <button className='flex items-center justify-start px-2 py-2 mt-5 rounded-full bg-gradient-to-r from-red-700 w-60'>
                     
                     <p className='px-2'>See Movies</p>
                     
@@ -20,6 +20,7 @@ const Hero = () => {
                 </svg>
                 </button>
                 </Link>
+           
             </div>
 
         </div>
