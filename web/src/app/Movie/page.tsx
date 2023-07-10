@@ -4,6 +4,7 @@ import poster from './movie-poster-example.jpg'
 import Image from 'next/image'
 import suzume from './Suzume.jpg'
 const suzlink = 'https://w0.peakpx.com/wallpaper/119/522/HD-wallpaper-anime-suzume-no-tojimari.jpg'
+import BookTicket from './BookTicket'
 const Home = () => {
   return (
     <div className='flex justify-center w-screen h-screen -mt-6 text-white bg-black '>
@@ -19,12 +20,9 @@ const Home = () => {
                     <p>27-05-2020</p>
                   </div>
                   <p className='z-10 text-xs max-w-[210px] md:max-w-xl md:text-lg'>This is the movie description. You know what i juts like watching anime like suzume. That was a really really great Anime and i want to wathc it again , i wish i can see more anime like thata, literallly the graphics wow</p>
-                  <button className='flex items-center justify-start w-40 px-0.5 py-0.5 mt-5 rounded-3xl bg-gradient-to-r from-red-700 z-10'>              
-                    <p className='px-2'>Book Now</p>                 
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 px-2" >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062A1.125 1.125 0 013 16.81V8.688zM12.75 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062a1.125 1.125 0 01-1.683-.977V8.688z" />
-                    </svg>
-                  </button>
+
+                  {/* booking Ticket */}
+                  <BookTicket></BookTicket>
                   
               {/* div display large images */}
               </div>
@@ -34,7 +32,7 @@ const Home = () => {
               }}></div>
             </div>
           {/*this div dsiplay movie list in a box form that can be X-scrolled Displayed content depend on this */}
-            <div className='flex w-full pb-10 h-1/4 md:h-2/5 md:items-center md:pb-0'>
+            <div className='flex w-full pb-0 translate-y-10 h-1/4 md:h-2/5 md:items-center md:pb-'>
                 <div className='flex w-full gap-1 overflow-x-auto md:justify-center md:gap-3 '>
                   <div className='flex-none w-fit h-fit'>
                    <div className='flex-none w-24 h-36 bg-black rounded-xl bg-[url(https://image.tmdb.org/t/p/w500/fiVW06jE7z9YnO4trhaMEdclSiC.jpg)] bg-cover border-white border-[1px]'>
