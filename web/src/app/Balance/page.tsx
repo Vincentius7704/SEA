@@ -22,7 +22,25 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { ScrollArea } from '@radix-ui/react-scroll-area'
-
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarTrigger,
+} from "@/components/ui/menubar"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter
+} from "@/components/ui/dialog"
+import { Button } from '@/components/ui/button'
 const invoices = [
   {
     invoice: "INV001",
@@ -106,7 +124,7 @@ function TopUp() {
           <p className=''>Top Up</p>
         </li >
       </SheetTrigger>
-      <SheetContent side='bottom'>
+      <SheetContent side='bottom' className='h-4/6'>
         <SheetHeader>
           <SheetTitle>
             Top Up
@@ -140,7 +158,7 @@ function Withdraw() {
         </li>
       </SheetTrigger>
 
-      <SheetContent side='bottom'>
+      <SheetContent side='bottom' className='h-4/6'>
         <SheetHeader>
           <SheetTitle>Withdraw</SheetTitle>
           <SheetDescription>Withdraw minimal 500.000</SheetDescription>
@@ -217,7 +235,59 @@ function CancelOrder() {
           <p>Cancel Order</p>
         </li>
       </SheetTrigger>
-      <SheetContent side='bottom'>
+      <SheetContent side='bottom' className='overflow-y-auto h-4/6'>
+        <SheetHeader className=''>
+          <SheetTitle>Your Order List</SheetTitle>
+          <SheetDescription>Click on the status coloumn to cancel</SheetDescription>
+        </SheetHeader>
+        <ScrollArea>
+          <Table>
+            <TableHeader className='sticky text-[11px] md:text-xs'>
+              <TableRow>
+                <TableHead>Status</TableHead>
+                <TableHead>Movie Title</TableHead>
+                <TableHead>Seat Numbers</TableHead>
+                <TableHead className='text-center'>Total Cost</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody className='text-[11px] md:text-xs'>
+              {invoices.map((invoice) => (
+                <TableRow key={invoice.invoice}>
+                  <TableCell className="font-medium">
+                    <Dialog>
+                      <Menubar>
+                        <MenubarMenu>
+                          <MenubarTrigger className='cursor-pointer hover:scale-1.2 text-[11px] md:w-full md:text-xs'>Not Cancelled</MenubarTrigger>
+                          <MenubarContent>
+                            <DialogTrigger asChild>
+                              <MenubarItem>Cancel</MenubarItem>
+                            </DialogTrigger>
+                          </MenubarContent>
+                        </MenubarMenu>
+                      </Menubar>
+                      <DialogContent className=''>
+                        <DialogHeader>
+                          <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+                          <DialogDescription>
+                            This action cannot be undone. Are you sure you want to permanently
+                            delete this order from our servers?
+                          </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter className='gap-2'>
+                          <Button type="submit">Confirm</Button>
+                          <Button type="submit" className='transition duration-300 bg-green-500 hover:scale-110 hover:bg-green-300'>No , i want my order</Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  </TableCell>
+                  <TableCell>{invoice.paymentStatus}</TableCell>
+                  <TableCell>{invoice.paymentMethod}</TableCell>
+                  <TableCell className="text-center">{invoice.totalAmount}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </ScrollArea>
       </SheetContent>
     </Sheet>
   )
