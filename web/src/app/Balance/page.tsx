@@ -86,6 +86,8 @@ const invoices = [
   },
 ]
 
+import { client } from '../lib/pocketbase'
+import { useEffect , useState } from 'react'
 
 
 export const BalanceBar = () => {
@@ -294,6 +296,11 @@ function CancelOrder() {
 }
 
 const Home = () => {
+  const [balance  , setBalance] = useState(0)
+  useEffect(()=>{
+    client.collection('')
+  },[])
+  
   return (
     <div className='z-0 flex justify-center w-screen h-screen -mt-6 text-white md:h-screen'>
       <UniNavbar></UniNavbar>
