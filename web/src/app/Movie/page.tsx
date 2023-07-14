@@ -14,19 +14,21 @@ const Home = () => {
   const [movie_description , setMovie_description] = useState('meh')
   const [date_release , setDate_release] = useState('meh')
   const [movie_poster , setMovie_poster] = useState('meh')
+  const [price, setPrice] = useState(0)
   useEffect(() => {
     client.collection('SEAmovie').getFullList().then((res) => {
       console.log(res) 
       setMovie(res)
-    infoHandler(res[0].title , res[0].age_rating , res[0].time_release , res[0].description , res[0].posterurl)})
+    infoHandler(res[0].title , res[0].age_rating , res[0].time_release , res[0].description , res[0].posterurl , res[0].price)})
   }, [])
   
-  function infoHandler(title , age_rating , date , description , poster){
+  function infoHandler(title , age_rating , date , description , poster , price){
     setMovie_title(title)
     setAge(age_rating)
     setDate_release(date)
     setMovie_description(description)
     setMovie_poster(poster)
+    setPrice(price)
     console.log(age , movie_title , movie_description , date_release , movie_poster)
   }
 
@@ -69,7 +71,7 @@ const Home = () => {
             return(
               <div className='flex-none w-fit h-fit' key = {id} >
                 <div 
-                onClick = {()=>infoHandler(title , age_rating , time_release , description, posterurl)}
+                onClick = {()=>infoHandler(title , age_rating , time_release , description, posterurl , price)}
                 style={{'--image-url': `url(${posterurl})`}} 
                 className={`flex-none w-24 h-36 bg-black rounded-xl  border-white border-[1px] bg-cover bg-[image:var(--image-url)] overflow-clip focus:ring focus:ring-white`}>
                   <div className='w-full h-full transition duration-1000 rounded-xl hover:bg-white/30 hover:duration-300 '></div>

@@ -6,7 +6,7 @@ import {motion} from 'framer-motion'
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center bg-black ">
+    <main className="flex flex-col items-center min-h-screen bg-black ">
        <UniNavbar></UniNavbar>
        <Hero></Hero>
     </main>
