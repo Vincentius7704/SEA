@@ -86,18 +86,25 @@ const invoices = [
   },
 ]
 
-import { client } from '../lib/pocketbase'
-import { useEffect , useState } from 'react'
-
+import { client, updateBalance } from '../lib/pocketbase'
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
 
 export const BalanceBar = () => {
+  const [balance, setBalance] = useState(0)
+  useEffect(() => {
+    client.collection('user').getFullList().then((res) => {
+      setBalance(res[0].balance)
+      console.log(res, res[0].id)
+    })
+  }, [])
   return (
     <div className='flex justify-center w-screen mt-40 '>
       <div className='flex flex-col justify-between w-9/12 h-40 mx-10 md:h-56 md:w-2/5 md:mx-40 bg-gradient-to-br from-blue-950 to-cyan-300 rounded-3xl'>
         {/** Balance bar */}
         <div className='flex flex-col px-5 py-5'>
           <h1 className='text-lg md:text-2xl'>My Balance</h1>
-          <p className='text-2xl font-semibold md:text-5xl'>Rp. 500.000</p>
+          <p className='text-2xl font-semibold md:text-5xl'>Rp {balance}</p>
         </div>
 
         {/** Button List  */}
@@ -116,6 +123,31 @@ export const BalanceBar = () => {
 }
 
 function TopUp() {
+  const [balance, setBalance] = useState(0)
+  const [Tbalance, setTbalance] = useState(0)
+  const [id, setId] = useState('')
+  const refreshPage = () => {
+    window.location.reload();
+  }
+  function makeValue(e: any) {
+    {/*update  top up input */ }
+    setTbalance(e.target.value)
+
+    console.log("the balance is changing to", Number(balance) + Number(Tbalance))
+  }
+  function topup() {
+    refreshPage()
+    updateBalance(Number(balance) - Number(Tbalance), id)
+
+  }
+  useEffect(() => {
+    client.collection('user').getFullList().then((res) => {
+      setBalance(res[0].balance)
+      setId(res[0].id)
+      console.log(res[0].id)
+    })
+  })
+
   return (
     <Sheet >
       <SheetTrigger>
@@ -131,14 +163,30 @@ function TopUp() {
           <SheetTitle>
             Top Up
           </SheetTitle>
-          <SheetDescription></SheetDescription>
+          <SheetDescription> Your current balance is {balance}</SheetDescription>
         </SheetHeader >
 
         <div className='w-10/12 '>
           <p className=''>Masukan jumlah</p>
           <div className='flex flex-col items-start gap-5 mt-4 md:flex-row'>
-            <Input type='number' placeholder='500000' className='md:max-w-3xl'></Input>
-            <button className='w-32 px-3 py-1 font-semibold text-white rounded-full bg-gradient-to-r from-blue-700 to-cyan-600 h-fit'>Top-Up!</button>
+            <Input type='number' placeholder='500000' className='md:max-w-3xl' onChange={(e) => makeValue(e)}></Input>
+            <Dialog>
+              <DialogTrigger asChild>
+                <button
+                  className='w-32 px-3 py-1 font-semibold text-white rounded-full bg-gradient-to-r from-blue-700 to-cyan-600 h-fit' >Top-Up!</button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Confirmation</DialogTitle>
+                  <DialogDescription className='text-black'>Are you sure want to top up Rp {Tbalance} for this account?</DialogDescription>
+
+                  <Button
+                    onClick={topup}
+                    type="submit" className='transition duration-300 bg-green-500 hover:scale-110 hover:bg-green-300'>Confirm</Button>
+
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
         <div className='h-60'></div>
@@ -149,6 +197,37 @@ function TopUp() {
 }
 
 function Withdraw() {
+  const [balance, setBalance] = useState(0)
+  const [Tbalance, setTbalance] = useState(0)
+  const [id, setId] = useState('')
+  const refreshPage = () => {
+    window.location.reload();
+  }
+  function makeValue(e: any) {
+    {/*update  top up input */ }
+    setTbalance(e.target.value)
+
+    console.log("the balance is changing to", Number(balance) + Number(Tbalance))
+  }
+  function withdraw() {
+    refreshPage()
+    updateBalance(Number(balance) - Number(Tbalance), id)
+
+  }
+  function Warning() {
+    return(
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+    </svg>)
+
+  }
+  useEffect(() => {
+    client.collection('user').getFullList().then((res) => {
+      setBalance(res[0].balance)
+      setId(res[0].id)
+      console.log(res[0].id)
+    })
+  })
   return (
     <Sheet>
       <SheetTrigger>
@@ -163,16 +242,35 @@ function Withdraw() {
       <SheetContent side='bottom' className='h-4/6'>
         <SheetHeader>
           <SheetTitle>Withdraw</SheetTitle>
-          <SheetDescription>Withdraw minimal 500.000</SheetDescription>
+          <SheetDescription>Maximal withdraw is 500.000</SheetDescription>
         </SheetHeader>
         <div className='w-10/12 '>
           <p className=''>Masukan jumlah</p>
-          <div className='flex items-center gap-5 mt-4'>
-            <Input type='number' placeholder='500000' className='md:max-w-4xl'></Input>
-            <button className='px-3 py-1 font-semibold text-white rounded-full bg-gradient-to-r from-red-700 to-cyan-600 w-fit h-fit'>Withdraw</button>
+          <div className='flex flex-col gap-5 mt-4'>
+            <Input type='number' placeholder='500000' className='md:max-w-4xl' onChange={(e) => makeValue(e)}></Input>
+            <div className='flex flex-col justify-start text-xs text-red-500'>
+              <p className='flex items-center gap-2'><Warning ></Warning> Your balance is 0 , please top up first</p>
+              <p className='flex items-center gap-2'><Warning ></Warning>Maximum withdraw is 500000</p>
+              <p className='flex items-center gap-2'><Warning ></Warning>Your withdraw exceed your balance</p>
+              <p className='flex items-center gap-2'><Warning ></Warning>Please input value for withdraw</p>
+            </div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <button
+                  className='px-3 py-1 font-semibold text-white rounded-full bg-gradient-to-r from-red-700 to-cyan-600 w-fit h-fit'>Withdraw</button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Are you sure want to continue?</DialogTitle>
+                  <DialogDescription className='text-start'>Amount withdraw :Rp {Tbalance} <br /> Current balance :Rp {balance}</DialogDescription>
+                </DialogHeader>
+                <Button className='bg-green-500' onClick={withdraw}>Continue</Button>
+
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
-        <div className='h-60'></div>
+
 
       </SheetContent>
     </Sheet>
@@ -296,11 +394,9 @@ function CancelOrder() {
 }
 
 const Home = () => {
-  const [balance  , setBalance] = useState(0)
-  useEffect(()=>{
-    client.collection('')
-  },[])
-  
+
+
+
   return (
     <div className='z-0 flex justify-center w-screen h-screen -mt-6 text-white md:h-screen'>
       <UniNavbar></UniNavbar>

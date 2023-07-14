@@ -3,7 +3,7 @@ import React from 'react'
 import UniNavbar from '../UniNavbar'
 import Image from 'next/image'
 import BookTicket from './BookTicket'
-import { client } from '../lib/pocketbase'
+import { client , updateBalance } from '../lib/pocketbase'
 import { useEffect , useState } from 'react'
 
 
